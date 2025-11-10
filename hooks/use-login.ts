@@ -4,6 +4,7 @@ import Cookies from "js-cookie"
 import { useMutation } from "@tanstack/react-query"
 import { loginUser } from "@/services/auth-api"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function useLogin() {
   const router = useRouter()
@@ -19,8 +20,12 @@ export function useLogin() {
         // Save user data in localStorage
         localStorage.setItem("user", JSON.stringify(data.user))
 
+        toast.success("Login successful!")
         router.push("/form")
       }
     },
+    onError: () => {
+      toast.error("Invalid email or password")
+    }
   })
 }
